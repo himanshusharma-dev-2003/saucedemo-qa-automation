@@ -66,6 +66,7 @@ cp .env.example .env
 ### 3. Run the tests!
 ```bash
 npm test                  # Run all tests across all browsers (headless)
+npm run test:retry        # Retry only the tests that failed in the last run
 npm run test:api          # Run just the API tests
 npm run test:visual       # Run the visual regression tests
 npm run test:headed       # Run UI tests visibly in the browser
