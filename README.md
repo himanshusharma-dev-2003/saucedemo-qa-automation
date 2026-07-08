@@ -1,87 +1,105 @@
-# saucedemo-qa-automation
+# SauceDemo QA Automation
+
+[![Playwright Tests](https://github.com/himanshusharma-dev-2003/saucedemo-qa-automation/actions/workflows/playwright.yml/badge.svg)](https://github.com/himanshusharma-dev-2003/saucedemo-qa-automation/actions/workflows/playwright.yml)
+[![Live HTML Report](https://img.shields.io/badge/Live_Report-View_on_GitHub_Pages-success)](https://himanshusharma-dev-2003.github.io/saucedemo-qa-automation/)
 
 Automated end-to-end test suite for [SauceDemo](https://www.saucedemo.com), built with **Playwright + TypeScript** using the **Page Object Model (POM)** pattern.
 
-Built as a QA portfolio project to demonstrate: test design, automation architecture, negative/edge-case testing, cross-browser execution, CI integration, and bug documentation.
+Built as a QA portfolio project to demonstrate: test design, automation architecture, API testing, visual regression, environment configuration, cross-browser execution, and CI/CD with automated reporting.
 
-## What's covered
+---
+
+## 📊 Live Test Report
+Every push triggers a full cross-browser test run on GitHub Actions. The HTML report is automatically deployed to GitHub Pages.
+
+👉 **[View the Live Test Report Here](https://himanshusharma-dev-2003.github.io/saucedemo-qa-automation/)**
+
+---
+
+## 📸 Screenshots
+Here is an example of the UI being tested via Playwright's built-in Visual Regression (golden snapshots):
+
+<p align="center">
+  <img src="tests/visual.spec.ts-snapshots/inventory-standard-user-chromium-win32.png" alt="Inventory Page" width="700"/>
+</p>
+
+---
+
+## 🧪 What's Covered
 
 | Suite | File | What it tests |
 |---|---|---|
-| Login | `tests/login.spec.ts` | Valid login, locked-out user, wrong password, empty fields, unregistered user |
-| Login (data-driven) | `tests/login.data-driven.spec.ts` | Same login scenarios plus edge cases (SQL-injection-style input, whitespace, case sensitivity), all defined in `test-data/login-cases.json` instead of hardcoded |
-| Inventory | `tests/inventory.spec.ts` | Product listing, sort by price/name (asc & desc), add/remove cart items, cart badge accuracy |
-| Checkout | `tests/checkout.spec.ts` | Full purchase flow, required-field validation, order total math verification |
-| Known bugs | `tests/known-bugs.spec.ts` | Two real, documented SauceDemo defects, written as automated regression checks with reproduction steps |
+| **Login** | `tests/login.spec.ts` | Valid login, locked-out user, wrong password, empty fields, unregistered user |
+| **Login (Data-Driven)** | `tests/login.data-driven.spec.ts` | Edge cases (SQL-injection-style input, whitespace, case sensitivity), defined in `test-data/login-cases.json` |
+| **Inventory** | `tests/inventory.spec.ts` | Product listing, sort by price/name (asc & desc), add/remove cart items, cart badge accuracy |
+| **Checkout** | `tests/checkout.spec.ts` | Full purchase flow, required-field validation, order total math verification |
+| **Known Bugs** | `tests/known-bugs.spec.ts` | Two real, documented SauceDemo defects, written as automated regression checks with reproduction steps |
+| **API Testing** | `tests/api.spec.ts` | 6 tests hitting REST endpoints (JSONPlaceholder). Validates GET, POST, filtering, 404 paths, and nested relational data |
+| **Visual Regression** | `tests/visual.spec.ts` | Pixel-perfect snapshot testing of core pages, including capturing the broken-image bug visually |
 
-**37 test cases total**, each independent and able to run in parallel.
+## 🏗️ Architecture & Best Practices
 
-## Why this project is structured this way
+- **Page Object Model (`/pages`)** — Selectors and actions live in one place per page, making tests read like plain English and ensuring easy maintenance.
+- **Environment Configuration (`.env`)** — Hardcoded URLs and credentials are removed. Driven by `dotenv` locally and GitHub Secrets in CI, allowing seamless swapping between staging and production.
+- **Custom Fixtures (`pages/fixtures.ts`)** — Page objects and test data are injected automatically into every test, removing setup boilerplate.
+- **Negative Testing** — Every "happy path" has matching negative tests (locked accounts, empty fields).
+- **Data-Driven Testing** — Test scenarios are defined as JSON data (`test-data/login-cases.json`). Adding edge cases scales infinitely without writing new test functions.
+- **Bug Documentation as Tests** — `known-bugs.spec.ts` demonstrates how a QA engineer turns a manually found bug into an automated regression check. It includes soft annotations describing expected vs. actual behavior and repro steps.
+- **CI/CD Integration** — GitHub Actions runs the full suite across Chromium, Firefox, WebKit, and Mobile Chrome emulation automatically, deploying the report to GitHub Pages.
 
-- **Page Object Model** (`/pages`) — selectors and actions live in one place per page, so tests read like plain English and a UI change only requires updating the page object, not every test.
-- **Custom fixtures** (`pages/fixtures.ts`) — page objects are injected automatically into every test, removing boilerplate.
-- **Negative testing** — every "happy path" test has 2-3 matching negative tests (locked accounts, empty required fields, invalid data), which is the difference between checking a feature works and actually testing it.
-- **Bug documentation as tests** — `known-bugs.spec.ts` shows how a QA engineer turns a manually found bug into a permanent automated regression check, with an annotation documenting expected vs. actual behavior and repro steps, exactly how you'd write it in a bug tracker.
-- **Data-driven testing** (`test-data/login-cases.json` + `login.data-driven.spec.ts`) — test scenarios are defined as data, not code. Adding a new edge case means adding one JSON object with a case ID, not writing a new test function. This scales far better than hardcoding scenarios and separates "what to test" (data) from "how to test it" (logic) — the same principle behind the Page Object Model, applied one layer up.
-- **Cross-browser + mobile viewport** — the same suite runs against Chromium, Firefox, WebKit, and a mobile Chrome emulation profile with one command.
-- **CI on every push** — GitHub Actions runs the full suite automatically and uploads the HTML report as a build artifact.
+## 🚀 Getting Started
 
-## Getting started
-
+### 1. Install dependencies
 ```bash
 npm install
 npx playwright install --with-deps
 ```
 
-## Running tests
+### 2. Set up environment
+Copy the template file to create your local environment config:
+```bash
+cp .env.example .env
+```
+*(No need to edit `.env` for the default SauceDemo site, but you can point it anywhere!)*
 
+### 3. Run tests
 ```bash
 npm test                  # run all tests, all browsers, headless
+npm run test:api          # run only the API tests
+npm run test:visual       # run only visual regression tests
 npm run test:headed       # watch the browser while tests run
 npm run test:ui           # Playwright's interactive UI mode (best for debugging)
-npm run test:chromium     # run against Chromium only
-npm run report             # open the last HTML report
+npm run report            # open the last HTML report
 ```
 
-## Test report
+## 📁 Project Structure
 
-After a run, view the interactive HTML report (screenshots + video on failure, trace viewer for step-by-step debugging):
-
-```bash
-npm run report
-```
-
-## Project structure
-
-```
-saucedemo-playwright/
+```text
+saucedemo-qa-automation/
 ├── pages/                  # Page Object Model
 │   ├── LoginPage.ts
 │   ├── InventoryPage.ts
-│   ├── CartPage.ts
 │   ├── CheckoutPage.ts
-│   └── fixtures.ts          # shared test fixtures
+│   └── fixtures.ts         # Shared test fixtures & credentials
 ├── test-data/
-│   ├── login-cases.json     # data-driven test scenarios
-│   └── types.ts              # shape of a test case
+│   └── login-cases.json    # Data-driven test scenarios
 ├── tests/
+│   ├── api.spec.ts         # Direct API testing
+│   ├── visual.spec.ts      # Visual regression snapshots
 │   ├── login.spec.ts
-│   ├── login.data-driven.spec.ts
 │   ├── inventory.spec.ts
 │   ├── checkout.spec.ts
 │   └── known-bugs.spec.ts
 ├── .github/workflows/
-│   └── playwright.yml       # CI pipeline
+│   └── playwright.yml      # CI/CD pipeline & GitHub Pages deploy
+├── .env.example            # Environment template
 ├── playwright.config.ts
 └── package.json
 ```
 
-## Tech stack
+## 🛠️ Tech Stack
 
-- [Playwright](https://playwright.dev/) - browser automation
-- TypeScript
-- GitHub Actions - CI/CD
-
-## Notes for reviewers
-
-This targets [SauceDemo](https://www.saucedemo.com), a site purpose-built by Sauce Labs for QA practice, including intentionally broken states (`problem_user`) used to demonstrate bug-catching, not just happy-path automation.
+- **[Playwright](https://playwright.dev/)** - E2E UI automation, API testing, Visual Regression
+- **TypeScript** - Strongly typed automation code
+- **GitHub Actions** - CI/CD pipeline
+- **GitHub Pages** - Hosted test reporting
