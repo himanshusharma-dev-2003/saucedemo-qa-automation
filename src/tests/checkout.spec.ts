@@ -1,4 +1,5 @@
 import { test, expect, USERS } from '../fixtures';
+import { TestDataGenerator } from '../utils/testDataGenerator';
 
 test.describe('Checkout flow', () => {
   test.beforeEach(async ({ loginPage, inventoryPage }) => {
@@ -14,7 +15,8 @@ test.describe('Checkout flow', () => {
     await cartPage.expectItemCount(2);
     await cartPage.beginCheckout();
 
-    await checkoutPage.fillInformation('Jane', 'Doe', '12345');
+    const user = TestDataGenerator.generateUser();
+    await checkoutPage.fillInformation(user.firstName, user.lastName, user.address.postalCode);
     await checkoutPage.expectTotalsAreConsistent();
 
     await checkoutPage.finish();
@@ -23,13 +25,15 @@ test.describe('Checkout flow', () => {
 
   test('cannot continue checkout without a first name', async ({ cartPage, checkoutPage }) => {
     await cartPage.beginCheckout();
-    await checkoutPage.fillInformation('', 'Doe', '12345');
+    const user = TestDataGenerator.generateUser();
+    await checkoutPage.fillInformation('', user.lastName, user.address.postalCode);
     await checkoutPage.expectInformationError('First Name is required');
   });
 
   test('cannot continue checkout without a postal code', async ({ cartPage, checkoutPage }) => {
     await cartPage.beginCheckout();
-    await checkoutPage.fillInformation('Jane', 'Doe', '');
+    const user = TestDataGenerator.generateUser();
+    await checkoutPage.fillInformation(user.firstName, user.lastName, '');
     await checkoutPage.expectInformationError('Postal Code is required');
   });
 
@@ -37,7 +41,8 @@ test.describe('Checkout flow', () => {
     await cartPage.expectItemPresent('Sauce Labs Backpack');
     await cartPage.expectItemPresent('Sauce Labs Bike Light');
     await cartPage.beginCheckout();
-    await checkoutPage.fillInformation('Jane', 'Doe', '12345');
+    const user = TestDataGenerator.generateUser();
+    await checkoutPage.fillInformation(user.firstName, user.lastName, user.address.postalCode);
     await checkoutPage.expectTotalsAreConsistent();
   });
 });

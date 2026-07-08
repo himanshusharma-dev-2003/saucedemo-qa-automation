@@ -25,9 +25,9 @@ Here's a peek at the visual regression testing in action—this golden snapshot 
 I tried to cover a realistic mix of UI and API testing. Here's what's inside:
 
 - **Login Flow (`tests/login.spec.ts`)**: Checks valid logins, locked-out accounts, empty fields, and unregistered users.
-- **Data-Driven Login (`tests/login.data-driven.spec.ts`)**: Instead of writing the same test 10 times, I used a JSON file (`test-data/login-cases.json`) to loop through tricky edge cases like SQL injections, whitespace, and case sensitivity. 
+- **Data-Driven Login (`tests/login.data-driven.spec.ts`)**: Instead of writing the same test 10 times, I used a JSON file (`src/test-data/login-cases.json`) to loop through tricky edge cases like SQL injections, whitespace, and case sensitivity. 
 - **Shopping Cart (`tests/inventory.spec.ts`)**: Makes sure products list correctly, sorting works (A-Z, High-Low), and the cart badge accurately tracks items.
-- **Checkout (`tests/checkout.spec.ts`)**: Goes through the entire purchase flow, verifying required fields and checking that the math for the order total is actually correct.
+- **Checkout (`tests/checkout.spec.ts`)**: Goes through the entire purchase flow, verifying required fields and checking that the math for the order total is actually correct. *Uses dynamic test data generated on the fly!*
 - **Known Bugs (`tests/known-bugs.spec.ts`)**: SauceDemo has some intentional bugs for QA practice. I wrote automated tests that *expect* to fail, documenting the exact steps to reproduce them—just like a real bug ticket!
 - **API Testing (`src/tests/api.spec.ts`)**: I added 6 tests hitting REST endpoints on JSONPlaceholder to validate GET, POST, filtering, 404 paths, and nested relational data. 
 - **Database Validation (`src/tests/checkout-database-validation.spec.ts`)**: Validates that orders are correctly persisted to a MySQL database after checkout. Since SauceDemo doesn't have a real backend, this runs against a simulated mock database layer using the exact same interface a real database would use!
@@ -43,6 +43,7 @@ I wanted this framework to reflect industry best practices:
 - **Environment Variables (`.env`)**: No hardcoded credentials here! Everything is driven by `dotenv` locally and GitHub Secrets in CI, making it super easy to swap between staging and production environments.
 - **Custom Fixtures (`src/fixtures/index.ts`)**: I set up Playwright fixtures so that page objects and test data are automatically injected into every test, keeping the actual test files completely clutter-free.
 - **Database Mocking (`src/utils/database.ts`)**: An `IDatabase` interface allows swapping seamlessly between a real `mysql2` connection and a `MockDatabase`. Driven by the `DB_HOST=mock` environment variable.
+- **Dynamic Test Data (`src/utils/testDataGenerator.ts`)**: Integrated `@faker-js/faker` to generate random realistic users, addresses, and passwords on the fly. This prevents tests from hardcoding "John Doe" and ensures we test with a wide variety of string lengths and characters!
 - **Negative Testing**: For every "happy path", I made sure to add tests for what happens when things go wrong (locked accounts, missing fields).
 - **CI/CD Pipeline**: GitHub Actions is set up to run the full suite across Chromium, Firefox, WebKit, and Mobile Chrome emulation automatically on every push, and it even deploys the HTML report to GitHub Pages.
 

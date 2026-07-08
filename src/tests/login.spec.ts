@@ -1,4 +1,5 @@
 import { test, expect, USERS } from '../fixtures';
+import { TestDataGenerator } from '../utils/testDataGenerator';
 
 test.describe('Login', () => {
   test.beforeEach(async ({ loginPage }) => {
@@ -17,7 +18,8 @@ test.describe('Login', () => {
   });
 
   test('invalid password is rejected', async ({ loginPage }) => {
-    await loginPage.login(USERS.standard.username, 'wrong_password');
+    const password = TestDataGenerator.generatePassword();
+    await loginPage.login(USERS.standard.username, password);
     await loginPage.expectErrorMessage('Username and password do not match');
   });
 
@@ -32,7 +34,8 @@ test.describe('Login', () => {
   });
 
   test('unregistered username is rejected', async ({ loginPage }) => {
-    await loginPage.login('not_a_real_user', 'secret_sauce');
+    const user = TestDataGenerator.generateUser();
+    await loginPage.login(user.username, user.password!);
     await loginPage.expectErrorMessage('do not match');
   });
 });
