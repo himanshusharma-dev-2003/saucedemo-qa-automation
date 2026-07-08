@@ -1,8 +1,9 @@
 import { test as base } from '@playwright/test';
-import { LoginPage } from './LoginPage';
-import { InventoryPage } from './InventoryPage';
-import { CartPage } from './CartPage';
-import { CheckoutPage } from './CheckoutPage';
+import { LoginPage } from '../pages/LoginPage';
+import { InventoryPage } from '../pages/InventoryPage';
+import { CartPage } from '../pages/CartPage';
+import { CheckoutPage } from '../pages/CheckoutPage';
+import { DatabaseFactory, IDatabase } from '../utils/database';
 
 /**
  * SauceDemo's publicly documented practice accounts.
@@ -27,6 +28,7 @@ type Pages = {
   inventoryPage: InventoryPage;
   cartPage: CartPage;
   checkoutPage: CheckoutPage;
+  db: IDatabase;
 };
 
 /**
@@ -45,6 +47,17 @@ export const test = base.extend<Pages>({
   },
   checkoutPage: async ({ page }, use) => {
     await use(new CheckoutPage(page));
+  },
+  db: async ({}, use) => {
+    // Instantiate the DB based on env (Mock vs Real)
+    const database = DatabaseFactory();
+    await database.connect();
+    
+    // Provide the connected DB to the test
+    await use(database);
+    
+    // Cleanup after test finishes
+    await database.disconnect();
   },
 });
 

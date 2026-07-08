@@ -1,4 +1,4 @@
-import { test, expect, USERS } from '../pages/fixtures';
+import { test, expect, USERS } from '../fixtures';
 
 /**
  * SauceDemo intentionally ships a handful of UI bugs when logged in as
@@ -19,6 +19,9 @@ test.describe('Known bugs (problem_user) @bug-report', () => {
   });
 
   test('BUG: all product images render identically for problem_user', async ({ page }) => {
+    // We expect this to fail because of the defect.
+    // test.fail() ensures it doesn't break the CI pipeline.
+    test.fail();
     test.info().annotations.push({
       type: 'bug',
       description:
@@ -42,6 +45,8 @@ test.describe('Known bugs (problem_user) @bug-report', () => {
     inventoryPage,
     checkoutPage,
   }) => {
+    // We expect this to fail because of the defect.
+    test.fail();
     test.info().annotations.push({
       type: 'bug',
       description:
