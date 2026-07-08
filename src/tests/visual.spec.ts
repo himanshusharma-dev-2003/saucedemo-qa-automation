@@ -1,4 +1,4 @@
-import { test, expect, USERS } from '../pages/fixtures';
+import { test, expect, USERS } from '../fixtures';
 
 /**
  * Visual Regression Testing — Playwright's built-in toHaveScreenshot()

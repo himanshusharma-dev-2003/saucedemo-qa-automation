@@ -1,4 +1,4 @@
-import { test, expect, USERS } from '../pages/fixtures';
+import { test, expect, USERS } from '../fixtures';
 
 /**
  * SauceDemo intentionally ships a handful of UI bugs when logged in as

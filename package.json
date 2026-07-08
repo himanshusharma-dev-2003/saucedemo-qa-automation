@@ -10,9 +10,9 @@
     "test:chromium": "playwright test --project=chromium",
     "test:firefox": "playwright test --project=firefox",
     "test:webkit": "playwright test --project=webkit",
-    "test:api": "playwright test tests/api.spec.ts --project=chromium",
-    "test:visual": "playwright test tests/visual.spec.ts --project=chromium",
-    "test:visual:update": "playwright test tests/visual.spec.ts --project=chromium --update-snapshots",
+    "test:api": "playwright test src/tests/api.spec.ts --project=chromium",
+    "test:visual": "playwright test src/tests/visual.spec.ts --project=chromium",
+    "test:visual:update": "playwright test src/tests/visual.spec.ts --project=chromium --update-snapshots",
     "test:staging": "cross-env BASE_URL=https://www.saucedemo.com TEST_ENV=staging playwright test",
     "test:prod": "cross-env BASE_URL=https://www.saucedemo.com TEST_ENV=production playwright test",
     "report": "playwright show-report",
@@ -33,5 +33,8 @@
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.0",
     "typescript": "^5.6.0"
+  },
+  "dependencies": {
+    "mysql2": "^3.22.6"
   }
 }
