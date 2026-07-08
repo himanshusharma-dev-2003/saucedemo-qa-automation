@@ -17,10 +17,19 @@ Every push triggers a full cross-browser test run on GitHub Actions. The HTML re
 ---
 
 ## 📸 Screenshots
+
+### 1. Visual Regression
 Here is an example of the UI being tested via Playwright's built-in Visual Regression (golden snapshots):
 
 <p align="center">
   <img src="tests/visual.spec.ts-snapshots/inventory-standard-user-chromium-win32.png" alt="Inventory Page" width="700"/>
+</p>
+
+### 2. CI/CD Pipeline
+Every push triggers a full cross-browser execution on GitHub Actions, complete with automated deployment to GitHub Pages.
+
+<p align="center">
+  <img src="docs/ci-run.png" alt="GitHub Actions CI Run" width="700"/>
 </p>
 
 ---
