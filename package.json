@@ -1,0 +1,36 @@
+{
+  "name": "saucedemo-qa-automation",
+  "version": "1.0.0",
+  "description": "Automated end-to-end test suite for SauceDemo (saucedemo.com) built with Playwright + TypeScript, using the Page Object Model pattern.",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "test:chromium": "playwright test --project=chromium",
+    "test:firefox": "playwright test --project=firefox",
+    "test:webkit": "playwright test --project=webkit",
+    "test:api": "playwright test tests/api.spec.ts --project=chromium",
+    "test:visual": "playwright test tests/visual.spec.ts --project=chromium",
+    "test:visual:update": "playwright test tests/visual.spec.ts --project=chromium --update-snapshots",
+    "test:staging": "cross-env BASE_URL=https://www.saucedemo.com TEST_ENV=staging playwright test",
+    "test:prod": "cross-env BASE_URL=https://www.saucedemo.com TEST_ENV=production playwright test",
+    "report": "playwright show-report",
+    "codegen": "playwright codegen https://www.saucedemo.com"
+  },
+  "keywords": [
+    "playwright",
+    "qa",
+    "automation",
+    "testing",
+    "e2e"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "^1.48.0",
+    "@types/node": "^22.7.0",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.0.0",
+    "typescript": "^5.6.0"
+  }
+}

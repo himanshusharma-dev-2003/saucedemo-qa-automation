@@ -1,0 +1,12 @@
+node_modules/
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+.env
+
+# Visual regression golden snapshots MUST be committed so CI can diff against them.
+# Do NOT add tests/__snapshots__/ here.
+
+# .env.example IS committed — it's a safe template with no real secrets.
+

@@ -1,0 +1,81 @@
+[
+  {
+    "caseId": "TC-LOGIN-01",
+    "description": "valid standard user",
+    "username": "standard_user",
+    "password": "secret_sauce",
+    "expectedOutcome": "success"
+  },
+  {
+    "caseId": "TC-LOGIN-02",
+    "description": "locked out user",
+    "username": "locked_out_user",
+    "password": "secret_sauce",
+    "expectedOutcome": "error",
+    "expectedError": "locked out"
+  },
+  {
+    "caseId": "TC-LOGIN-03",
+    "description": "wrong password for valid user",
+    "username": "standard_user",
+    "password": "wrong_password_123",
+    "expectedOutcome": "error",
+    "expectedError": "do not match"
+  },
+  {
+    "caseId": "TC-LOGIN-04",
+    "description": "unregistered username",
+    "username": "not_a_real_user",
+    "password": "secret_sauce",
+    "expectedOutcome": "error",
+    "expectedError": "do not match"
+  },
+  {
+    "caseId": "TC-LOGIN-05",
+    "description": "empty username",
+    "username": "",
+    "password": "secret_sauce",
+    "expectedOutcome": "error",
+    "expectedError": "Username is required"
+  },
+  {
+    "caseId": "TC-LOGIN-06",
+    "description": "empty password",
+    "username": "standard_user",
+    "password": "",
+    "expectedOutcome": "error",
+    "expectedError": "Password is required"
+  },
+  {
+    "caseId": "TC-LOGIN-07",
+    "description": "both fields empty",
+    "username": "",
+    "password": "",
+    "expectedOutcome": "error",
+    "expectedError": "Username is required"
+  },
+  {
+    "caseId": "TC-LOGIN-08",
+    "description": "SQL-injection-style input is rejected safely, not crashed on",
+    "username": "' OR '1'='1",
+    "password": "' OR '1'='1",
+    "expectedOutcome": "error",
+    "expectedError": "do not match"
+  },
+  {
+    "caseId": "TC-LOGIN-09",
+    "description": "username with leading/trailing whitespace is rejected",
+    "username": "  standard_user  ",
+    "password": "secret_sauce",
+    "expectedOutcome": "error",
+    "expectedError": "do not match"
+  },
+  {
+    "caseId": "TC-LOGIN-10",
+    "description": "case-sensitive username is rejected when case differs",
+    "username": "STANDARD_USER",
+    "password": "secret_sauce",
+    "expectedOutcome": "error",
+    "expectedError": "do not match"
+  }
+]
