@@ -1,4 +1,4 @@
-import { test, expect, USERS } from '../pages/fixtures';
+import { test, expect, USERS } from '../fixtures';
 
 test.describe('Checkout flow', () => {
   test.beforeEach(async ({ loginPage, inventoryPage }) => {

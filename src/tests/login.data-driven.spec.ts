@@ -1,4 +1,4 @@
-import { test, expect } from '../pages/fixtures';
+import { test, expect } from '../fixtures';
 import loginCases from '../test-data/login-cases.json';
 import { LoginTestCase } from '../test-data/types';
 
