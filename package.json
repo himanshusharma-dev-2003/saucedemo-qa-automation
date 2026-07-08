@@ -4,6 +4,7 @@
   "description": "Automated end-to-end test suite for SauceDemo (saucedemo.com) built with Playwright + TypeScript, using the Page Object Model pattern.",
   "scripts": {
     "test": "playwright test",
+    "test:retry": "playwright test --last-failed",
     "test:headed": "playwright test --headed",
     "test:ui": "playwright test --ui",
     "test:chromium": "playwright test --project=chromium",
